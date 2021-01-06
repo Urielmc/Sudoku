@@ -35,7 +35,7 @@ class Sudoku:
         self.play = True                                    # indicates playing in progress
         self.disable_changes = False                        # flag to disable changes if finished
     
-    # initialise GUI and run tkkinter mainloop
+    # initialise GUI and run tkinter mainloop
     def initUI(self):
         
         root = tk.Tk()
@@ -86,12 +86,14 @@ class Sudoku:
         # frame2 - "new game" and "solve" button
         
         frame2 = tk.Frame(root)
-        frame2.pack(side=tk.BOTTOM, expand=1, anchor=tk.S, fill=tk.BOTH)
-        reset_btn = tk.Button(frame2, text="new game", command=play_again, padx=5, pady=5)
-        reset_btn.grid(row=1,column=0,sticky="nsw")
-        solve_btn = tk.Button(frame2, text="solve", padx=5, pady=5)
+        frame2.pack(side=tk.BOTTOM, anchor=tk.S, fill=tk.BOTH)
+        frame2.columnconfigure(0, weight=1)
+        frame2.columnconfigure(1, weight=1)
+        reset_btn = tk.Button(frame2, text="New Game", command=play_again, padx=10, pady=5, font=("Fixedsys","16"))
+        reset_btn.grid(row=1,column=0,sticky="nsew")
+        solve_btn = tk.Button(frame2, text="Solve", padx=10, pady=5,font=("Fixedsys","16"))
         solve_btn.bind("<Button>", lambda event: self.show_sol(board))
-        solve_btn.grid(row=1,column=1,sticky="nse")
+        solve_btn.grid(row=1,column=1,sticky="nsew")
         
         '''
         def mark_num(event):
@@ -118,6 +120,7 @@ class Sudoku:
         '''
         
         root.protocol("WM_DELETE_WINDOW", close)
+        root.focus_force()
         root.mainloop()
     
     # show solution of board
@@ -258,13 +261,13 @@ class Sudoku:
         
         frame = tk.Frame(root)
         
-        logo = Image.open("start.png")
+        logo = Image.open('start.png')
         logo = logo.resize((260, 70), Image.ANTIALIAS)
         image=ImageTk.PhotoImage(logo)
         img_lbl = tk.Label(frame, image=image)
         img_lbl.grid(row=0,column=0,columnspan=3)
         
-        level_lbl=tk.Label(frame,text="Select Difficulty:",font=("Courier", 14))
+        level_lbl=tk.Label(frame,text="Select Difficulty:",font=("Fixedsys","14"))
         level_lbl.grid(row=1,column=0,columnspan=3)
         
         def set_level(event):
@@ -283,7 +286,6 @@ class Sudoku:
         frame.pack()
         root.protocol("WM_DELETE_WINDOW", lambda : sys.exit())
         root.mainloop()
-
 
 def main():
     while True:
