@@ -89,11 +89,15 @@ class Sudoku:
         frame2.pack(side=tk.BOTTOM, anchor=tk.S, fill=tk.BOTH)
         frame2.columnconfigure(0, weight=1)
         frame2.columnconfigure(1, weight=1)
+        frame2.columnconfigure(2, weight=1)
         reset_btn = tk.Button(frame2, text="New Game", command=play_again, padx=10, pady=5, font=("Fixedsys","16"))
         reset_btn.grid(row=1,column=0,sticky="nsew")
+        hint_btn = tk.Button(frame2, text="Hint", padx=10, pady=5, font=("Fixedsys", "16"))
+        hint_btn.bind("<Button>", lambda event: self.hint(board))
+        hint_btn.grid(row=1, column=1, sticky="nsew")
         solve_btn = tk.Button(frame2, text="Solve", padx=10, pady=5,font=("Fixedsys","16"))
         solve_btn.bind("<Button>", lambda event: self.show_sol(board))
-        solve_btn.grid(row=1,column=1,sticky="nsew")
+        solve_btn.grid(row=1,column=2,sticky="nsew")
         
         '''
         def mark_num(event):
@@ -207,6 +211,19 @@ class Sudoku:
                 self.bo[i][j] = 0
         return False
     
+    #expose solution of one random cell
+    def hint(self,b):
+        while True:
+            i = random.randint(0, 8)
+            j = random.randint(0, 8)
+            if self.bo[i][j]==0:
+                self.bo[i][j] = self.bo_solved[i][j]
+                b[i][j].config(text=self.bo_solved[i][j])
+                b[i][j].config(bg="#afff69")
+                b[i][j].after(300, lambda: b[i][j].config(bg="white"))
+                break
+            
+
     def find_empty(self):
         for i in range(9):
             for j in range(9):
